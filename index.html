@@ -69,10 +69,37 @@
         .hidden {
             display: none;
         }
+
+        /* Стили для индикатора загрузки */
+        .loading {
+            font-size: 2em;
+            color: #00d4ff;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading.show {
+            opacity: 1;
+        }
+
+        /* Стили для множителя */
+        .multiplier {
+            font-size: 4em;
+            margin: 20px 0;
+            color: #00d4ff;
+            opacity: 0; /* Скрыто изначально */
+            transform: scale(0.5);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .multiplier.show {
+            opacity: 1;
+            transform: scale(1);
+        }
     </style>
 </head>
 <body>
-    <div class="game-container">
+    <div class="game-container" id="mainContainer">
         <a href="https://your-link-here.com" target="_blank"> <!-- Замените на нужный URL -->
             <img src="https://1winbd.com/wp-content/uploads/2022/10/lucky-jet-header.webp" alt="Логотип" class="logo" />
         </a>
@@ -80,51 +107,70 @@
         <input type="text" id="accountId" placeholder="ID аккаунта" />
         <button class="button" onclick="checkAccess()">Подключиться</button>
         <div class="error hidden" id="errorMsg"></div>
-        <div class="success hidden" id="successMsg"></div>
         <div class="loading hidden" id="loading">Загрузка...</div>
-        <div class="multiplier hidden" id="multiplier"></div>
     </div>
 
     <script>
-        async function checkAccess() {
+        // Массив разрешенных ID
+        const allowedIds = [
+            '12345', // Замените на ваши реальные ID
+            '67890',
+            'abcde'
+        ];
+
+        function checkAccess() {
             const accountId = document.getElementById("accountId").value;
             const errorMsg = document.getElementById("errorMsg");
-            const successMsg = document.getElementById("successMsg");
             const loadingElement = document.getElementById("loading");
-            const multiplierElement = document.getElementById("multiplier");
+            const mainContainer = document.getElementById("mainContainer");
+
             errorMsg.classList.add("hidden");
-            successMsg.classList.add("hidden");
             loadingElement.classList.remove("hidden");
 
-            try {
-                // Загружаем список разрешенных ID из файла
-                const response = await fetch('allowed_ids.txt');
-                const allowedIds = await response.text();
-                const allowedIdArray = allowedIds.split('\n').map(id => id.trim());
-
-                if (allowedIdArray.includes(accountId)) {
-                    loadingElement.classList.add("hidden");
-                    successMsg.classList.remove("hidden");
-                    generateRandomMultiplier(); // Вызов функции генерации множителя
-                } else {
-                    loadingElement.classList.add("hidden");
-                    errorMsg.textContent = "Доступ запрещён. ";
-                    errorMsg.innerHTML += '<a href="https://t.me/ваш_телеграм" style="color: #9d0fff;">Получить доступ</a>'; // Ссылка на телеграм
-                    errorMsg.classList.remove("hidden");
-                }
-            } catch (error) {
-                console.error('Ошибка:', error);
+            // Проверяем ID
+            if (allowedIds.includes(accountId)) {
                 loadingElement.classList.add("hidden");
-                errorMsg.textContent = "Произошла ошибка. Попробуйте снова.";
+                // Меняем содержимое страницы на "Lucky Jet Predictor"
+                mainContainer.innerHTML = `
+                    <h1>Lucky Jet Predictor</h1>
+                    <div class="loading hidden" id="loadingMultiplier">Загрузка...</div>
+                    <div class="multiplier hidden" id="multiplier"></div>
+                    <button class="button" onclick="generateRandomMultiplier()">Получить сигнал</button>
+                    <div class="error hidden" id="multiplierError"></div>
+                `;
+
+                // Обновляем элементы, чтобы показать их
+                document.getElementById("loadingMultiplier").classList.add("hidden");
+                document.getElementById("multiplier").classList.add("hidden");
+            } else {
+                loadingElement.classList.add("hidden");
+                errorMsg.textContent = "Доступ запрещён. ";
+                errorMsg.innerHTML += '<a href="https://t.me/ваш_телеграм" style="color: #9d0fff;">Получить доступ</a>'; // Ссылка на телеграм
                 errorMsg.classList.remove("hidden");
             }
         }
 
         function generateRandomMultiplier() {
             const multiplierElement = document.getElementById("multiplier");
-            multiplierElement.classList.remove("hidden");
-            const randomMultiplier = (Math.random() * 9 + 1).toFixed(2);
-            multiplierElement.textContent = `Случайный множитель: x${randomMultiplier}`;
+            const loadingElement = document.getElementById("loadingMultiplier");
+
+            // Скрываем число и показываем индикатор загрузки
+            multiplierElement.classList.remove("show");
+            loadingElement.classList.remove("hidden");
+
+            // Через 2 секунды показываем случайное число и скрываем индикатор загрузки
+            setTimeout(() => {
+                // Генерация случайного множителя от 1.00 до 10.00
+                const randomMultiplier = (Math.random() * 9 + 1).toFixed(2);
+                multiplierElement.textContent = `x${randomMultiplier}`;
+
+                // Скрываем индикатор загрузки и показываем число
+                loadingElement.classList.add("hidden");
+                multiplierElement.classList.add("show");
+
+                // Удаляем класс hidden, если он есть, чтобы гарантировать, что элемент будет виден
+                multiplierElement.classList.remove("hidden");
+            }, 2000); // 2 секунды
         }
     </script>
 </body>

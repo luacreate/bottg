@@ -8,7 +8,7 @@
         /* Фон и стиль страницы */
         body {
             display: flex;
-            flex-direction: column; /* Позволяет размещать элементы вертикально */
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -32,8 +32,8 @@
 
         /* Логотип */
         .logo {
-            width: 100px; /* Задайте ширину логотипа */
-            margin-bottom: 20px; /* Отступ снизу */
+            width: 100px;
+            margin-bottom: 20px;
         }
 
         /* Стили текста */
@@ -57,7 +57,7 @@
         }
 
         .button:hover {
-            background-color: #7b0ddb; /* Тёмно-фиолетовый при наведении */
+            background-color: #7b0ddb;
         }
 
         /* Стиль для сообщения об ошибке */
@@ -71,27 +71,50 @@
             display: none;
         }
 
-        /* Стили для индикатора загрузки */
-        .loading {
-            font-size: 1.5em;
-            color: #00d4ff;
-            margin-top: 10px;
+        /* Контейнер для множителя и его анимации */
+        .multiplier-container {
+            position: relative;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+            width: 150px;
+            height: 150px;
+        }
+
+        /* Вращающийся круг из полосок */
+        .multiplier-circle {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 4px dashed rgba(0, 212, 255, 0.8);
+            animation: spin 15s linear infinite; /* Замедлено до 4 секунд */
+        }
+
+        /* Анимация вращения */
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         /* Стили для множителя */
         .multiplier {
-            font-size: 5em; /* Увеличенный размер шрифта */
-            margin: 20px 0;
-            color: #00ffcc; /* Яркий цвет для лучшей видимости */
-            text-shadow: 0 0 10px rgba(0, 255, 204, 0.8); /* Эффект свечения */
-            opacity: 0; /* Скрыто изначально */
+            font-size: 3.5em;
+            color: #00ffcc;
+            text-shadow: 0 0 10px rgba(0, 255, 204, 0.8);
+            opacity: 0;
             transform: scale(0.5);
             transition: opacity 1s ease, transform 1s ease;
         }
 
         .multiplier.show {
             opacity: 1;
-            transform: scale(1.1); /* Легкое увеличение для акцента */
+            transform: scale(1);
         }
 
         /* Стили для тех. поддержки */
@@ -129,7 +152,7 @@
     <script>
         // Массив разрешенных ID
         const allowedIds = [
-            '12345', // Замените на ваши реальные ID
+            '12345',
             '67890',
             'abcde'
         ];
@@ -143,7 +166,6 @@
             errorMsg.classList.add("hidden");
             loadingElement.classList.remove("hidden");
 
-            // Эмулируем задержку для проверки ID
             setTimeout(() => {
                 if (allowedIds.includes(accountId)) {
                     loadingElement.classList.add("hidden");
@@ -153,16 +175,19 @@
                         </a>
                         <h1>Lucky Jet Predictor</h1>
                         <div class="loading hidden" id="loadingMultiplier">Подключение к игре...</div>
-                        <div class="multiplier hidden" id="multiplier"></div>
+                        <div class="multiplier-container">
+                            <div class="multiplier-circle"></div>
+                            <div class="multiplier hidden" id="multiplier"></div>
+                        </div>
                         <button class="button" onclick="generateRandomMultiplier()">Получить сигнал</button>
                     `;
                 } else {
                     loadingElement.classList.add("hidden");
-                    errorMsg.textContent = "Аккаунт не найден. ";
+                    errorMsg.textContent = "Доступ запрещён. ";
                     errorMsg.innerHTML += '<a href="https://t.me/ваш_телеграм" style="color: #9d0fff;">Получить доступ</a>';
                     errorMsg.classList.remove("hidden");
                 }
-            }, 2000); // 2 секунды
+            }, 2000);
         }
 
         function generateRandomMultiplier() {
@@ -178,7 +203,7 @@
                 loadingElement.classList.add("hidden");
                 multiplierElement.classList.add("show");
                 multiplierElement.classList.remove("hidden");
-            }, 2000); // 2 секунды
+            }, 2000);
         }
     </script>
 </body>

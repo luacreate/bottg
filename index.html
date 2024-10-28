@@ -29,6 +29,12 @@
             width: 100%;
         }
 
+        /* Логотип */
+        .logo {
+            width: 100px; /* Задайте ширину логотипа */
+            margin-bottom: 20px; /* Отступ снизу */
+        }
+
         /* Стили текста */
         h1 {
             font-size: 1.8em;
@@ -67,6 +73,9 @@
 </head>
 <body>
     <div class="game-container">
+        <a href="https://your-link-here.com" target="_blank"> <!-- Замените на нужный URL -->
+            <img src="https://1winbd.com/wp-content/uploads/2022/10/lucky-jet-header.webp" alt="Логотип" class="logo" />
+        </a>
         <h1>Введите ID вашего аккаунта 1Win</h1>
         <input type="text" id="accountId" placeholder="ID аккаунта" />
         <button class="button" onclick="checkAccess()">Подключиться</button>
@@ -100,7 +109,7 @@
                 } else {
                     loadingElement.classList.add("hidden");
                     errorMsg.textContent = "Доступ запрещён. ";
-                    errorMsg.innerHTML += '<a href="https://t.me/lucyjethk_bot" style="color: #9d0fff;">Получить доступ</a>'; // Ссылка на телеграм
+                    errorMsg.innerHTML += '<a href="https://t.me/ваш_телеграм" style="color: #9d0fff;">Получить доступ</a>'; // Ссылка на телеграм
                     errorMsg.classList.remove("hidden");
                 }
             } catch (error) {

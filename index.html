@@ -21,7 +21,7 @@
         }
 
         /* Стиль контейнера */
-        .game-container {
+        .game-container, .language-selection {
             text-align: center;
             background-color: rgba(0, 0, 0, 0.6);
             padding: 20px;
@@ -89,7 +89,7 @@
             height: 100%;
             border-radius: 50%;
             border: 4px dashed rgba(0, 212, 255, 0.8);
-            animation: spin 15s linear infinite; /* Замедлено до 4 секунд */
+            animation: spin 15s linear infinite;
         }
 
         /* Анимация вращения */
@@ -134,28 +134,71 @@
     </style>
 </head>
 <body>
-    <div class="game-container" id="mainContainer">
+    <div class="language-selection">
+        <button class="button" onclick="setLanguage('en')">English</button>
+        <button class="button" onclick="setLanguage('ru')">Русский</button>
+    </div>
+
+    <div class="game-container hidden" id="mainContainer">
         <a href="https://your-link-here.com" target="_blank">
             <img src="https://1winbd.com/wp-content/uploads/2022/10/lucky-jet-header.webp" alt="Логотип" class="logo" />
         </a>
-        <h1>Введите ID вашего аккаунта 1win</h1>
-        <input type="text" id="accountId" placeholder="ID аккаунта" />
-        <button class="button" onclick="checkAccess()">Подключиться</button>
+        <h1 id="heading">Enter your 1Win account ID</h1>
+        <input type="text" id="accountId" placeholder="Account ID" />
+        <button class="button" onclick="checkAccess()" id="connectButton">Connect</button>
         <div class="error hidden" id="errorMsg"></div>
-        <div class="loading hidden" id="loading">Проверка ID...</div>
+        <div class="loading hidden" id="loading">Checking ID...</div>
     </div>
 
     <div class="support">
-        Тех. Поддержка: <a href="https://t.me/adm_1w" target="_blank">Написать в Telegram</a>
+        <span id="supportText">Support:</span> <a href="https://t.me/adm_1w" target="_blank" id="supportLink">Contact on Telegram</a>
     </div>
 
     <script>
-        // Массив разрешенных ID
-        const allowedIds = [
-            '772277',
-            '96456822',
-            '96481620'
-        ];
+        const translations = {
+            en: {
+                heading: "Enter your 1Win account ID",
+                placeholder: "Account ID",
+                connectButton: "Connect",
+                errorText: "Account not authorized.",
+                instruction: "Account instructions",
+                loading: "Checking ID...",
+                gameTitle: "Lucky Jet Predictor",
+                connectGame: "Connect to the game...",
+                getSignal: "Get signal",
+                supportText: "Support:",
+                supportLink: "Contact on Telegram"
+            },
+            ru: {
+                heading: "Введите ID вашего аккаунта 1win",
+                placeholder: "ID аккаунта",
+                connectButton: "Подключиться",
+                errorText: "Аккаунт не подходит.",
+                instruction: "Инструкция по аккаунту",
+                loading: "Проверка ID...",
+                gameTitle: "Предсказатель Lucky Jet",
+                connectGame: "Подключение к игре...",
+                getSignal: "Получить сигнал",
+                supportText: "Тех. Поддержка:",
+                supportLink: "Написать в Telegram"
+            }
+        };
+
+        let currentLanguage = 'en';
+
+        function setLanguage(language) {
+            currentLanguage = language;
+            document.getElementById("heading").textContent = translations[language].heading;
+            document.getElementById("accountId").placeholder = translations[language].placeholder;
+            document.getElementById("connectButton").textContent = translations[language].connectButton;
+            document.getElementById("loading").textContent = translations[language].loading;
+            document.getElementById("supportText").textContent = translations[language].supportText;
+            document.getElementById("supportLink").textContent = translations[language].supportLink;
+            document.querySelector(".language-selection").classList.add("hidden");
+            document.getElementById("mainContainer").classList.remove("hidden");
+        }
+
+        const allowedIds = ['772277', '96456822', '96481620'];
 
         function checkAccess() {
             const accountId = document.getElementById("accountId").value;
@@ -173,18 +216,18 @@
                         <a href="https://your-link-here.com" target="_blank">
                             <img src="https://1winbd.com/wp-content/uploads/2022/10/lucky-jet-header.webp" alt="Логотип" class="logo" />
                         </a>
-                        <h1>Lucky Jet Predictor</h1>
-                        <div class="loading hidden" id="loadingMultiplier">Подключение к игре...</div>
+                        <h1>${translations[currentLanguage].gameTitle}</h1>
+                        <div class="loading hidden" id="loadingMultiplier">${translations[currentLanguage].connectGame}</div>
                         <div class="multiplier-container">
                             <div class="multiplier-circle"></div>
                             <div class="multiplier hidden" id="multiplier"></div>
                         </div>
-                        <button class="button" onclick="generateRandomMultiplier()">Получить сигнал</button>
+                        <button class="button" onclick="generateRandomMultiplier()">${translations[currentLanguage].getSignal}</button>
                     `;
                 } else {
                     loadingElement.classList.add("hidden");
-                    errorMsg.textContent = "Аккаунт не подходит. ";
-                    errorMsg.innerHTML += '<a href="https://t.me/c/2214579126/332" style="color: #9d0fff;">Инструкция по аккаунту</a>';
+                    errorMsg.textContent = translations[currentLanguage].errorText + ' ';
+                    errorMsg.innerHTML += `<a href="https://t.me/c/2214579126/332" style="color: #9d0fff;">${translations[currentLanguage].instruction}</a>`;
                     errorMsg.classList.remove("hidden");
                 }
             }, 2000);

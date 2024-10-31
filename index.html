@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>1Win Access</title>
     <style>
-        /* Фон и стиль страницы */
+        /* Основной стиль страницы */
         body {
             display: flex;
             flex-direction: column;
@@ -43,7 +43,7 @@
             color: #ffffff;
         }
 
-        /* Стили кнопки */
+        /* Основные стили кнопки */
         .button {
             background-color: #9d0fff;
             color: white;
@@ -58,6 +58,13 @@
 
         .button:hover {
             background-color: #7b0ddb;
+        }
+
+        /* Специальный стиль для кнопки "Создать аккаунт" */
+        .create-account-button {
+            background-color: #b36bff; /* Более светлый оттенок фиолетового */
+            padding: 10px 20px; /* Меньший размер */
+            font-size: 1em;
         }
 
         /* Стиль для сообщения об ошибке */
@@ -146,6 +153,7 @@
         <h1 id="heading">Enter your 1Win account ID</h1>
         <input type="text" id="accountId" placeholder="Account ID" />
         <button class="button" onclick="checkAccess()" id="connectButton">Connect</button>
+        <button class="button create-account-button" onclick="createAccount()" id="createAccountButton">Create Account</button>
         <div class="error hidden" id="errorMsg"></div>
         <div class="loading hidden" id="loading">Checking ID...</div>
     </div>
@@ -160,19 +168,22 @@
                 heading: "Enter your 1Win account ID",
                 placeholder: "Account ID",
                 connectButton: "Connect",
+                createAccountButton: "Create Account",
                 errorText: "Account not authorized.",
                 instruction: "Account instructions",
                 loading: "Checking ID...",
                 gameTitle: "Lucky Jet Predictor",
-                connectGame: "Connect to the game...",
+                connectGame: "Connecting to the game...",
                 getSignal: "Get signal",
                 supportText: "Support:",
-                supportLink: "Contact on Telegram"
+                supportLink: "Contact on Telegram",
+                createAccountUrl: "https://telegra.ph/Proper-account-registration-for-our-app-10-30"
             },
             ru: {
                 heading: "Введите ID вашего аккаунта 1win",
                 placeholder: "ID аккаунта",
                 connectButton: "Подключиться",
+                createAccountButton: "Создать аккаунт",
                 errorText: "Аккаунт не подходит.",
                 instruction: "Инструкция по аккаунту",
                 loading: "Проверка ID...",
@@ -180,7 +191,8 @@
                 connectGame: "Подключение к игре...",
                 getSignal: "Получить сигнал",
                 supportText: "Тех. Поддержка:",
-                supportLink: "Написать в Telegram"
+                supportLink: "Написать в Telegram",
+                createAccountUrl: "https://telegra.ph/Vozmozhnye-oshibki-pri-registracii-10-20"
             }
         };
 
@@ -191,6 +203,7 @@
             document.getElementById("heading").textContent = translations[language].heading;
             document.getElementById("accountId").placeholder = translations[language].placeholder;
             document.getElementById("connectButton").textContent = translations[language].connectButton;
+            document.getElementById("createAccountButton").textContent = translations[language].createAccountButton;
             document.getElementById("loading").textContent = translations[language].loading;
             document.getElementById("supportText").textContent = translations[language].supportText;
             document.getElementById("supportLink").textContent = translations[language].supportLink;
@@ -198,7 +211,10 @@
             document.getElementById("mainContainer").classList.remove("hidden");
         }
 
-        const allowedIds = ['772277', '96456822', '96481620'];
+        function createAccount() {
+            const url = translations[currentLanguage].createAccountUrl;
+            window.open(url, '_blank');
+        }
 
         function checkAccess() {
             const accountId = document.getElementById("accountId").value;
@@ -210,7 +226,7 @@
             loadingElement.classList.remove("hidden");
 
             setTimeout(() => {
-                if (allowedIds.includes(accountId)) {
+                if (['772277', '96456822', '96481620'].includes(accountId)) {
                     loadingElement.classList.add("hidden");
                     mainContainer.innerHTML = `
                         <a href="https://your-link-here.com" target="_blank">
@@ -226,7 +242,7 @@
                     `;
                 } else {
                     loadingElement.classList.add("hidden");
-                    errorMsg.textContent = translations[currentLanguage].errorText + ' ';
+                    errorMsg.textContent = translations[currentLanguage].errorText + " ";
                     errorMsg.innerHTML += `<a href="https://t.me/c/2214579126/332" style="color: #9d0fff;">${translations[currentLanguage].instruction}</a>`;
                     errorMsg.classList.remove("hidden");
                 }
@@ -236,6 +252,8 @@
         function generateRandomMultiplier() {
             const multiplierElement = document.getElementById("multiplier");
             const loadingElement = document.getElementById("loadingMultiplier");
+
+            if (!multiplierElement) return;
 
             multiplierElement.classList.remove("show");
             loadingElement.classList.remove("hidden");

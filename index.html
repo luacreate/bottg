@@ -1,271 +1,188 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1Win Access</title>
+    <title>Проверка доступа</title>
     <style>
-        /* Основной стиль страницы */
         body {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             margin: 0;
-            font-family: Arial, sans-serif;
-            background-image: url('https://naffipase.com/wp-content/uploads/2024/04/Frame-38313-2048x943.webp');
-            background-size: cover;
-            background-position: center;
-            color: white;
-        }
-
-        /* Стиль контейнера */
-        .game-container, .language-selection {
-            text-align: center;
-            background-color: rgba(0, 0, 0, 0.6);
-            padding: 20px;
-            border-radius: 10px;
-            max-width: 300px;
-            width: 100%;
-        }
-
-        /* Логотип */
-        .logo {
-            width: 100px;
-            margin-bottom: 20px;
-        }
-
-        /* Стили текста */
-        h1 {
-            font-size: 1.8em;
-            margin-bottom: 15px;
-            color: #ffffff;
-        }
-
-        /* Основные стили кнопки */
-        .button {
-            background-color: #9d0fff;
-            color: white;
-            padding: 15px 30px;
-            font-size: 1.1em;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            margin-top: 10px;
-        }
-
-        .button:hover {
-            background-color: #7b0ddb;
-        }
-
-        /* Специальный стиль для кнопки "Создать аккаунт" */
-        .create-account-button {
-            background-color: #b36bff; /* Более светлый оттенок фиолетового */
-            padding: 10px 20px; /* Меньший размер */
-            font-size: 1em;
-        }
-
-        /* Стиль для сообщения об ошибке */
-        .error {
-            color: red;
-            margin-top: 10px;
-        }
-
-        /* Скрыть элементы по умолчанию */
-        .hidden {
-            display: none;
-        }
-
-        /* Контейнер для множителя и его анимации */
-        .multiplier-container {
-            position: relative;
-            display: inline-flex;
-            justify-content: center;
+            height: 100vh;
+            display: flex;
             align-items: center;
-            margin: 20px 0;
-            width: 150px;
-            height: 150px;
+            justify-content: center;
+            background: url('redsoftlogo.png') no-repeat center center;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            color: white;
         }
 
-        /* Вращающийся круг из полосок */
-        .multiplier-circle {
+        .background {
             position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
+            background: radial-gradient(circle, rgba(255,0,0,0.2), transparent 70%);
+        }
+
+        .circuit-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .glow-circle {
+            position: absolute;
+            width: 200px;
+            height: 200px;
             border-radius: 50%;
-            border: 4px dashed rgba(0, 212, 255, 0.8);
-            animation: spin 15s linear infinite;
+            background: radial-gradient(circle, rgba(255,69,0,0.8), rgba(0,0,0,0));
+            box-shadow: 0 0 20px 15px rgba(255,69,0,0.5);
         }
 
-        /* Анимация вращения */
-        @keyframes spin {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(360deg);
-            }
+        .glow-circle.center {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
-        /* Стили для множителя */
-        .multiplier {
-            font-size: 3.5em;
-            color: #00ffcc;
-            text-shadow: 0 0 10px rgba(0, 255, 204, 0.8);
-            opacity: 0;
-            transform: scale(0.5);
-            transition: opacity 1s ease, transform 1s ease;
+        .container {
+            padding: 20px;
+            border: 3px solid rgba(255, 165, 0, 0.8);
+            border-radius: 20px;
+            background: rgba(50, 0, 0, 0.9);
+            box-shadow: 
+                inset 0 0 15px rgba(0, 0, 0, 0.8),
+                0 0 20px rgba(255, 69, 0, 0.5),
+                0 0 30px rgba(255, 69, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            z-index: 1;
         }
 
-        .multiplier.show {
-            opacity: 1;
-            transform: scale(1);
+        h2 {
+            margin: 0;
+            font-size: 24px;
         }
 
-        /* Стили для тех. поддержки */
-        .support {
-            margin-top: 20px;
-            color: white;
+        input {
+            padding: 10px;
+            width: 100%;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 2px solid #1b1b2f;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            background: #330000;
+            color: #ffffff;
+            text-align: center;
         }
 
-        .support a {
-            color: #9d0fff;
-            text-decoration: none;
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background: #e65100;
+            border: none;
+            border-radius: 10px;
+            color: #FFFFFF;
+            font-weight: bold;
+            transition: background 0.3s, transform 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
         }
 
-        .support a:hover {
-            text-decoration: underline;
+        button:hover {
+            background: #ff8c00;
+            transform: scale(1.05);
+        }
+
+        #result {
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <div class="language-selection">
-        <button class="button" onclick="setLanguage('en')">English</button>
-        <button class="button" onclick="setLanguage('ru')">Русский</button>
-    </div>
 
-    <div class="game-container hidden" id="mainContainer">
-        <a href="https://your-link-here.com" target="_blank">
-            <img src="https://1winbd.com/wp-content/uploads/2022/10/lucky-jet-header.webp" alt="Логотип" class="logo" />
-        </a>
-        <h1 id="heading">Enter your 1Win account ID</h1>
-        <input type="text" id="accountId" placeholder="Account ID" />
-        <button class="button" onclick="checkAccess()" id="connectButton">Connect</button>
-        <button class="button create-account-button" onclick="createAccount()" id="createAccountButton">Create Account</button>
-        <div class="error hidden" id="errorMsg"></div>
-        <div class="loading hidden" id="loading">Checking ID...</div>
-    </div>
+<div class="background"></div>
 
-    <div class="support">
-        <span id="supportText">Support:</span> <a href="https://t.me/adm_1w" target="_blank" id="supportLink">Contact on Telegram</a>
-    </div>
+<div class="circuit-pattern">
+    <svg width="100%" height="100%">
+        <defs>
+            <pattern id="circuit" x="0" y="0" width="0.05" height="0.05" patternUnits="userSpaceOnUse">
+                <path d="M 0 5 L 10 5 M 5 0 L 5 10" stroke="rgba(255,0,0,0.5)" stroke-width="1"/>
+            </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#circuit)" />
+    </svg>
+</div>
 
-    <script>
-        const translations = {
-            en: {
-                heading: "Enter your 1Win account ID",
-                placeholder: "Account ID",
-                connectButton: "Connect",
-                createAccountButton: "Create Account",
-                errorText: "Account not authorized.",
-                instruction: "Account instructions",
-                loading: "Checking ID...",
-                gameTitle: "Lucky Jet Predictor",
-                connectGame: "Connecting to the game...",
-                getSignal: "Get signal",
-                supportText: "Support:",
-                supportLink: "Contact on Telegram",
-                createAccountUrl: "https://telegra.ph/Proper-account-registration-for-our-app-10-30"
-            },
-            ru: {
-                heading: "Введите ID вашего аккаунта 1win",
-                placeholder: "ID аккаунта",
-                connectButton: "Подключиться",
-                createAccountButton: "Создать аккаунт",
-                errorText: "Аккаунт не подходит.",
-                instruction: "Инструкция по аккаунту",
-                loading: "Проверка ID...",
-                gameTitle: "Lucky Jet Predictor",
-                connectGame: "Подключение к игре...",
-                getSignal: "Получить сигнал",
-                supportText: "Тех. Поддержка:",
-                supportLink: "Написать в Telegram",
-                createAccountUrl: "https://telegra.ph/Vozmozhnye-oshibki-pri-registracii-10-20"
-            }
-        };
+<div class="glow-circle center"></div>
 
-        let currentLanguage = 'en';
+<div class="container">
+    <h2>Введите ID аккаунта 1win</h2>
+    <input type="text" id="userId" placeholder="Введите ID">
+    <button onclick="checkAccess()">Подключиться</button>
+    <div id="result"></div>
+</div>
 
-        function setLanguage(language) {
-            currentLanguage = language;
-            document.getElementById("heading").textContent = translations[language].heading;
-            document.getElementById("accountId").placeholder = translations[language].placeholder;
-            document.getElementById("connectButton").textContent = translations[language].connectButton;
-            document.getElementById("createAccountButton").textContent = translations[language].createAccountButton;
-            document.getElementById("loading").textContent = translations[language].loading;
-            document.getElementById("supportText").textContent = translations[language].supportText;
-            document.getElementById("supportLink").textContent = translations[language].supportLink;
-            document.querySelector(".language-selection").classList.add("hidden");
-            document.getElementById("mainContainer").classList.remove("hidden");
+<script>
+    function checkAccess() {
+        const userId = document.getElementById('userId').value;
+        const resultDiv = document.getElementById('result');
+        
+        if (!userId) {
+            resultDiv.textContent = "Пожалуйста, введите ID вашего аккаунта на 1win";
+            return;
         }
 
-        function createAccount() {
-            const url = translations[currentLanguage].createAccountUrl;
-            window.open(url, '_blank');
-        }
+        // Отправляем GET-запрос к серверу для получения данных из data.json
+        fetch('https://postback-server-boba.onrender.com/data')
+            .then(response => response.json())
+            .then(data => {
+                const userEntry = data.find(entry => entry.user_id === userId);
 
-        function checkAccess() {
-            const accountId = document.getElementById("accountId").value;
-            const errorMsg = document.getElementById("errorMsg");
-            const loadingElement = document.getElementById("loading");
-            const mainContainer = document.getElementById("mainContainer");
-
-            errorMsg.classList.add("hidden");
-            loadingElement.classList.remove("hidden");
-
-            setTimeout(() => {
-                if (['95469150', '97012376', '95466596', '96481620', '96956933', '97044530', '97057595', '97057595', '96903914', '97631416'].includes(accountId)) {
-                    loadingElement.classList.add("hidden");
-                    mainContainer.innerHTML = `
-                        <a href="https://your-link-here.com" target="_blank">
-                            <img src="https://1winbd.com/wp-content/uploads/2022/10/lucky-jet-header.webp" alt="Логотип" class="logo" />
-                        </a>
-                        <h1>${translations[currentLanguage].gameTitle}</h1>
-                        <div class="loading hidden" id="loadingMultiplier">${translations[currentLanguage].connectGame}</div>
-                        <div class="multiplier-container">
-                            <div class="multiplier-circle"></div>
-                            <div class="multiplier hidden" id="multiplier"></div>
-                        </div>
-                        <button class="button" onclick="generateRandomMultiplier()">${translations[currentLanguage].getSignal}</button>
-                    `;
+                if (userEntry) {
+                    if (userEntry.amount > 5.00) {
+                        resultDiv.textContent = "Аккаунт найден!";
+                        resultDiv.style.color = "#00FF00";
+                        // Переход на страницу menu.html
+                        setTimeout(() => {
+                            window.location.href = "menu.html";
+                        }, 1000); // Задержка на 1 секунду перед переходом
+                    } else {
+                        resultDiv.textContent = "Аккаунт не активирован!";
+                        resultDiv.style.color = "#FF0000";
+                        // Переход на страницу instruction.html
+                        setTimeout(() => {
+                            window.location.href = "instruction.html";
+                        }, 1000); // Задержка на 1 секунду перед переходом
+                    }
                 } else {
-                    loadingElement.classList.add("hidden");
-                    errorMsg.textContent = translations[currentLanguage].errorText + " ";
-                    errorMsg.innerHTML += `<a href="https://t.me/c/2214579126/332" style="color: #9d0fff;">${translations[currentLanguage].instruction}</a>`;
-                    errorMsg.classList.remove("hidden");
+                    resultDiv.textContent = "Аккаунт не активирован!";
+                    resultDiv.style.color = "#FF0000";
+                    // Переход на страницу instruction.html
+                    setTimeout(() => {
+                        window.location.href = "instruction.html";
+                    }, 1000); // Задержка на 1 секунду перед переходом
                 }
-            }, 2000);
-        }
+            })
+            .catch(error => {
+                console.error('Ошибка при получении данных:', error);
+                resultDiv.textContent = "Ошибка при загрузке данных";
+                resultDiv.style.color = "#FF0000";
+            });
+    }
+</script>
 
-        function generateRandomMultiplier() {
-            const multiplierElement = document.getElementById("multiplier");
-            const loadingElement = document.getElementById("loadingMultiplier");
-
-            if (!multiplierElement) return;
-
-            multiplierElement.classList.remove("show");
-            loadingElement.classList.remove("hidden");
-
-            setTimeout(() => {
-                const randomMultiplier = (Math.random() * 9 + 1).toFixed(2);
-                multiplierElement.textContent = `x${randomMultiplier}`;
-                loadingElement.classList.add("hidden");
-                multiplierElement.classList.add("show");
-                multiplierElement.classList.remove("hidden");
-            }, 2000);
-        }
-    </script>
 </body>
 </html>

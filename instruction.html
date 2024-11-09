@@ -49,15 +49,10 @@
             color: #FFD700;
         }
 
-        .content {
+        #instructions {
             font-size: 18px;
             line-height: 1.6;
             margin-bottom: 20px;
-            display: none;
-        }
-
-        .content.active {
-            display: block;
         }
 
         a {
@@ -67,13 +62,6 @@
 
         a:hover {
             text-decoration: underline;
-        }
-
-        .navigation-buttons {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            margin-top: 20px;
         }
 
         button {
@@ -99,7 +87,7 @@
                 padding: 15px;
             }
 
-            .content {
+            #instructions {
                 font-size: 16px;
             }
 
@@ -116,74 +104,15 @@
 
 <div class="container">
     <h1>Правильная регистрация аккаунта для нашего приложения ✅</h1>
-    <div class="content active" id="page1">
+    <div id="instructions">
         <p>1. Перейти на сайт и зарегистрировать аккаунт по промокоду GPT24 - <a href="https://t.me/c/2214579126/332">Жми</a></p>
+        <p>2. При регистрации вводим промокод - <strong>GPT24</strong>. Это важно для подключения аккаунта.</p>
+        <p>3. Активируем аккаунт двумя депозитами по 1001 и 1000 рублей.</p>
+        <p>4. Играем в Lucky Jet, чтобы программа могла начать выдавать сигналы.</p>
+        <p>5. Используем ваш ID в программе для авторизации.</p>
     </div>
-    <div class="content" id="page2">
-        <p>2. При регистрации вводим промокод - <strong>GPT24</strong> (САМЫЙ ВАЖНЫЙ ПУНКТ). Если аккаунт будет зарегистрирован не по этому промокоду - бот не сможет подключиться к нему.</p>
-    </div>
-    <div class="content" id="page3">
-        <p>3. Активируем аккаунт. Для активации аккаунта необходимо совершить 2 пополнения баланса на сумму 2001 руб. (Один депозит 1001 рублей и второй депозит 1000).<br>
-        <strong>ВАЖНО:</strong> Если вы совершите один депозит на сумму 2001 рубль, программа может не увидеть ваше пополнение, поэтому лучше 2 раза.</p>
-    </div>
-    <div class="content" id="page4">
-        <p>4. Играем в Lucky Jet, чтобы программа смогла синхронизироваться с вашим аккаунтом и начать выдавать точные сигналы. <br>
-        <em>(Рекомендуется сыграть 15-20 игр по 20 рублей, тогда программа сможет хорошо проанализировать результаты и выдавать точные сигналы).</em></p>
-    </div>
-    <div class="content" id="page5">
-        <p>5. Получаем ваш ID на сайте 1WIN и используем его для авторизации в программе.</p>
-        <p><strong>ВАЖНО:</strong> При несоблюдении пунктов 1, 2, 3 - бот не сможет подключиться к вашему аккаунту. <br>
-        При несоблюдении пункта 4 - бот может выдавать неверные сигналы из-за отсутствия синхронизации с аккаунтом.</p>
-        <p>⚠️ По всем вопросам писать менеджеру - <a href="https://t.me/redsoft_support" target="_blank">https://t.me/adm_1w</a></p>
-    </div>
-    <div class="navigation-buttons">
-        <button id="backButton" onclick="goBack()">Назад в меню</button>
-        <button id="nextButton" onclick="nextPage()">Вперед</button>
-    </div>
+    <button onclick="showSection('accessSection')" style="background: #808080;">Вернуться к проверке доступа</button>
 </div>
-
-<script>
-    let currentPage = 1;
-    const totalPages = 5;
-
-    function showPage(page) {
-        for (let i = 1; i <= totalPages; i++) {
-            document.getElementById(`page${i}`).classList.remove('active');
-        }
-        document.getElementById(`page${page}`).classList.add('active');
-        
-        const backButton = document.getElementById('backButton');
-        if (page === 1) {
-            backButton.textContent = 'Назад в меню';
-            backButton.onclick = () => window.location.href = 'index.html';
-        } else {
-            backButton.textContent = 'Назад';
-            backButton.onclick = prevPage;
-        }
-    }
-
-    function nextPage() {
-        if (currentPage < totalPages) {
-            currentPage++;
-            showPage(currentPage);
-        }
-    }
-
-    function prevPage() {
-        if (currentPage > 1) {
-            currentPage--;
-            showPage(currentPage);
-        }
-    }
-
-    function goBack() {
-        if (currentPage === 1) {
-            window.location.href = 'index.html';
-        } else {
-            prevPage();
-        }
-    }
-</script>
 
 </body>
 </html>

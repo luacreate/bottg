@@ -14,20 +14,9 @@
             justify-content: center;
             background: url('redsoftlogo.png') no-repeat center center;
             background-size: cover;
-            font-family: Arial, sans-serif;
             overflow: hidden;
+            font-family: 'Poppins', sans-serif;
             color: white;
-            transform: scale(1.05);
-        }
-
-        .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 0;
         }
 
         .container {
@@ -38,40 +27,63 @@
             align-items: center;
             padding: 25px;
             border-radius: 20px;
-            background: rgba(50, 50, 50, 0.9);
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            background: rgba(40, 40, 60, 0.85);
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
             max-width: 90%;
             text-align: center;
         }
 
         .logo {
-            width: 80px;
-            margin-bottom: 15px;
+            width: 100px;
+            margin-bottom: 20px;
+            animation: logoAnimation 2s ease infinite alternate;
+        }
+
+        @keyframes logoAnimation {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-10px); }
         }
 
         h1 {
-            font-size: 36px;
+            font-size: 3em;
             margin: 0;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #ff416c, #ff4b2b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255, 71, 108, 0.7);
+            animation: textGlow 2s infinite alternate;
+        }
+
+        @keyframes textGlow {
+            0% { text-shadow: 0 0 20px rgba(255, 71, 108, 0.7); }
+            100% { text-shadow: 0 0 40px rgba(255, 71, 108, 1); }
         }
 
         .button {
             padding: 15px 40px;
-            font-size: 20px;
+            font-size: 1.5em;
             cursor: pointer;
-            background: #1976D2;
+            background: linear-gradient(to right, #FFD700, #FFA500);
             border: none;
-            border-radius: 10px;
+            border-radius: 15px;
             color: #FFFFFF;
             font-weight: bold;
-            transition: background 0.3s, transform 0.3s;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-            margin-top: 10px;
+            transition: background 0.4s, transform 0.3s;
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
+            margin-top: 20px;
+            text-transform: uppercase;
         }
 
         .button:hover {
-            background: #343a40;
+            background: linear-gradient(to right, #FFA500, #FFD700);
+            transform: scale(1.1);
+        }
+
+        .button:active {
             transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.5);
         }
 
         .multiplier-container {
@@ -79,9 +91,9 @@
             display: inline-flex;
             justify-content: center;
             align-items: center;
-            margin: 20px 0;
-            width: 150px;
-            height: 150px;
+            margin: 40px 0;
+            width: 200px;
+            height: 200px;
         }
 
         .multiplier-circle {
@@ -89,23 +101,19 @@
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            border: 4px dashed rgba(0, 212, 255, 0.8);
-            animation: spin 15s linear infinite;
+            border: 8px dashed rgba(0, 212, 255, 0.8);
+            animation: spin 10s linear infinite;
         }
 
         @keyframes spin {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(360deg);
-            }
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         .multiplier {
-            font-size: 3.5em;
+            font-size: 4em;
             color: #00ffcc;
-            text-shadow: 0 0 10px rgba(0, 255, 204, 0.8);
+            text-shadow: 0 0 20px rgba(0, 255, 204, 0.8);
             opacity: 0;
             transform: scale(0.5);
             transition: opacity 1s ease, transform 1s ease;
@@ -124,12 +132,14 @@
             background: rgba(50, 50, 50, 0.8);
             padding: 10px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
         }
 
         .support a {
-            color: #9d0fff;
+            color: #ff8bff;
             text-decoration: none;
+            font-weight: bold;
         }
 
         .support a:hover {
@@ -139,12 +149,12 @@
         @media (max-width: 600px) {
             .button {
                 padding: 10px 25px;
-                font-size: 16px;
+                font-size: 1.2em;
             }
 
             .multiplier-container {
-                width: 120px;
-                height: 120px;
+                width: 150px;
+                height: 150px;
             }
 
             .multiplier {
@@ -154,21 +164,20 @@
     </style>
 </head>
 <body>
-    <div class="overlay"></div>
-
     <div class="container" id="mainContainer">
         <img src="https://1winbd.com/wp-content/uploads/2022/10/lucky-jet-header.webp" alt="Логотип" class="logo" />
-        <h1 id="heading">Red Soft Signals </h1>
+        <h1 id="heading">Red Soft Signals</h1>
         
         <div class="multiplier-container">
             <div class="multiplier-circle"></div>
             <div class="multiplier" id="multiplier">x0.00</div>
         </div>
         <button class="button" onclick="generateRandomMultiplier()">Получить сигнал</button>
-    <button class="button" style="background: #808080;" onclick="window.location.href='menu.html'">Вернуться в меню</button>
+        <button class="button" style="background: #555;" onclick="window.location.href='menu.html'">Вернуться в меню</button>
+    </div>
 
-
-        <span id="supportText">Тех. Поддержка:</span> <a href="https://t.me/redsoft_support" target="_blank" id="supportLink">Написать в Telegram</a>
+    <div class="support">
+        Тех. Поддержка: <a href="https://t.me/redsoft_support" target="_blank">Написать в Telegram</a>
     </div>
 
     <script>

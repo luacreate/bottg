@@ -25,18 +25,18 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 25px;
-            border-radius: 20px;
-            background: rgba(40, 40, 60, 0.85);
-            box-shadow: 0 0 50px rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
-            max-width: 90%;
+            padding: 15px;
+            border-radius: 15px;
+            background: rgba(40, 40, 60, 0.8);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            max-width: 85%;
             text-align: center;
         }
 
         .logo {
-            width: 100px;
-            margin-bottom: 20px;
+            width: 80px;
+            margin-bottom: 15px;
             animation: logoAnimation 2s ease infinite alternate;
         }
 
@@ -46,44 +46,44 @@
         }
 
         h1 {
-            font-size: 3em;
+            font-size: 2.5em;
             margin: 0;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             background: linear-gradient(to right, #ff416c, #ff4b2b);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(255, 71, 108, 0.7);
-            animation: textGlow 2s infinite alternate;
+            text-shadow: 0 0 15px rgba(255, 71, 108, 0.6);
+            animation: textGlow 1.5s infinite alternate;
         }
 
         @keyframes textGlow {
-            0% { text-shadow: 0 0 20px rgba(255, 71, 108, 0.7); }
-            100% { text-shadow: 0 0 40px rgba(255, 71, 108, 1); }
+            0% { text-shadow: 0 0 15px rgba(255, 71, 108, 0.6); }
+            100% { text-shadow: 0 0 30px rgba(255, 71, 108, 0.9); }
         }
 
         .button {
-            padding: 15px 40px;
-            font-size: 1.5em;
+            padding: 10px 30px;
+            font-size: 1.2em;
             cursor: pointer;
             background: linear-gradient(to right, #FFD700, #FFA500);
             border: none;
-            border-radius: 15px;
+            border-radius: 10px;
             color: #FFFFFF;
             font-weight: bold;
             transition: background 0.4s, transform 0.3s;
-            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
-            margin-top: 20px;
+            box-shadow: 0 8px 15px rgba(255, 215, 0, 0.3);
+            margin-top: 15px;
             text-transform: uppercase;
         }
 
         .button:hover {
             background: linear-gradient(to right, #FFA500, #FFD700);
-            transform: scale(1.1);
+            transform: scale(1.05);
         }
 
         .button:active {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.5);
+            transform: scale(1.02);
+            box-shadow: 0 4px 10px rgba(255, 215, 0, 0.4);
         }
 
         .multiplier-container {
@@ -91,9 +91,9 @@
             display: inline-flex;
             justify-content: center;
             align-items: center;
-            margin: 40px 0;
-            width: 200px;
-            height: 200px;
+            margin: 30px 0;
+            width: 150px;
+            height: 150px;
         }
 
         .multiplier-circle {
@@ -101,8 +101,8 @@
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            border: 8px dashed rgba(0, 212, 255, 0.8);
-            animation: spin 10s linear infinite;
+            border: 6px dashed rgba(0, 212, 255, 0.7);
+            animation: spin 8s linear infinite;
         }
 
         @keyframes spin {
@@ -111,12 +111,12 @@
         }
 
         .multiplier {
-            font-size: 4em;
+            font-size: 3.5em;
             color: #00ffcc;
-            text-shadow: 0 0 20px rgba(0, 255, 204, 0.8);
+            text-shadow: 0 0 15px rgba(0, 255, 204, 0.7);
             opacity: 0;
             transform: scale(0.5);
-            transition: opacity 1s ease, transform 1s ease;
+            transition: opacity 0.8s ease, transform 0.8s ease;
         }
 
         .multiplier.show {
@@ -126,14 +126,14 @@
 
         .support {
             position: fixed;
-            bottom: 20px;
+            bottom: 15px;
             color: white;
             z-index: 1;
-            background: rgba(50, 50, 50, 0.8);
-            padding: 10px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+            background: rgba(50, 50, 50, 0.7);
+            padding: 8px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
         }
 
         .support a {
@@ -148,17 +148,17 @@
 
         @media (max-width: 600px) {
             .button {
-                padding: 10px 25px;
-                font-size: 1.2em;
+                padding: 8px 20px;
+                font-size: 1em;
             }
 
             .multiplier-container {
-                width: 150px;
-                height: 150px;
+                width: 120px;
+                height: 120px;
             }
 
             .multiplier {
-                font-size: 3em;
+                font-size: 2.5em;
             }
         }
     </style>

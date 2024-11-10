@@ -29,7 +29,6 @@
             border-radius: 15px;
             background: rgba(40, 40, 60, 0.8);
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(8px);
             max-width: 85%;
             text-align: center;
         }
@@ -37,12 +36,6 @@
         .logo {
             width: 80px;
             margin-bottom: 15px;
-            animation: logoAnimation 2s ease infinite alternate;
-        }
-
-        @keyframes logoAnimation {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-10px); }
         }
 
         h1 {
@@ -53,12 +46,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 0 0 15px rgba(255, 71, 108, 0.6);
-            animation: textGlow 1.5s infinite alternate;
-        }
-
-        @keyframes textGlow {
-            0% { text-shadow: 0 0 15px rgba(255, 71, 108, 0.6); }
-            100% { text-shadow: 0 0 30px rgba(255, 71, 108, 0.9); }
         }
 
         .button {
@@ -92,8 +79,8 @@
             justify-content: center;
             align-items: center;
             margin: 30px 0;
-            width: 150px;
-            height: 150px;
+            width: 120px;
+            height: 120px;
         }
 
         .multiplier-circle {
@@ -101,17 +88,11 @@
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            border: 6px dashed rgba(0, 212, 255, 0.7);
-            animation: spin 8s linear infinite;
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            border: 4px dashed rgba(0, 212, 255, 0.7);
         }
 
         .multiplier {
-            font-size: 3.5em;
+            font-size: 2.5em;
             color: #00ffcc;
             text-shadow: 0 0 15px rgba(0, 255, 204, 0.7);
             opacity: 0;
@@ -133,7 +114,6 @@
             padding: 8px;
             border-radius: 8px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
         }
 
         .support a {
@@ -150,15 +130,6 @@
             .button {
                 padding: 8px 20px;
                 font-size: 1em;
-            }
-
-            .multiplier-container {
-                width: 120px;
-                height: 120px;
-            }
-
-            .multiplier {
-                font-size: 2.5em;
             }
         }
     </style>

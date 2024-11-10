@@ -13,7 +13,7 @@
             justify-content: center;
             background: url('redsoftlogo.png') no-repeat center center;
             background-size: cover;
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             overflow: hidden;
             color: white;
         }
@@ -22,11 +22,11 @@
             padding: 20px;
             border: 3px solid rgba(255, 165, 0, 0.8);
             border-radius: 20px;
-            background: rgba(50, 0, 0, 0.9);
+            background: rgba(40, 0, 0, 0.9);
             box-shadow: 
                 inset 0 0 15px rgba(0, 0, 0, 0.8),
-                0 0 20px rgba(255, 69, 0, 0.5),
-                0 0 30px rgba(255, 69, 0, 0.3);
+                0 0 30px rgba(255, 69, 0, 0.6),
+                0 0 40px rgba(255, 69, 0, 0.4);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -37,14 +37,24 @@
 
         h2 {
             margin-bottom: 20px;
-            font-size: 28px;
+            font-size: 2.5em;
+            background: linear-gradient(to right, #ff416c, #ff4b2b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255, 71, 108, 0.7);
+            animation: textGlow 1.5s infinite alternate;
+        }
+
+        @keyframes textGlow {
+            0% { text-shadow: 0 0 20px rgba(255, 71, 108, 0.7); }
+            100% { text-shadow: 0 0 40px rgba(255, 71, 108, 1); }
         }
 
         .game-option {
             margin: 15px 0;
             width: 250px;
             padding: 20px;
-            background: rgba(255, 165, 0, 0.8);
+            background: linear-gradient(to right, #FFA500, #FF4500);
             border-radius: 15px;
             display: flex;
             flex-direction: column;
@@ -52,12 +62,19 @@
             cursor: pointer;
             transition: transform 0.3s, box-shadow 0.3s;
             color: white;
-            font-size: 20px;
+            font-size: 1.5em;
             font-weight: bold;
+            box-shadow: 0 10px 20px rgba(255, 69, 0, 0.4);
+            text-transform: uppercase;
         }
 
         .game-option:hover {
             transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 69, 0, 0.6);
+        }
+
+        .game-option:active {
+            transform: scale(0.98);
             box-shadow: 0 4px 15px rgba(255, 69, 0, 0.5);
         }
     </style>

@@ -14,7 +14,7 @@
             justify-content: center;
             background: url('redsoftlogo.png') no-repeat center center;
             background-size: cover;
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             overflow: hidden;
             color: white;
         }
@@ -37,27 +37,40 @@
             align-items: center;
             padding: 20px;
             border-radius: 20px;
-            background: rgba(50, 50, 50, 0.9);
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            background: rgba(50, 0, 0, 0.9);
+            box-shadow: 
+                inset 0 0 15px rgba(0, 0, 0, 0.8),
+                0 0 30px rgba(255, 69, 0, 0.6),
+                0 0 40px rgba(255, 69, 0, 0.4);
             max-width: 90%;
             text-align: left;
         }
 
         h1 {
-            font-size: 28px;
+            font-size: 2.5em;
             text-align: center;
-            color: #FFD700;
+            background: linear-gradient(to right, #ff416c, #ff4b2b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255, 71, 108, 0.7);
+            animation: textGlow 1.5s infinite alternate;
+        }
+
+        @keyframes textGlow {
+            0% { text-shadow: 0 0 20px rgba(255, 71, 108, 0.7); }
+            100% { text-shadow: 0 0 40px rgba(255, 71, 108, 1); }
         }
 
         #instructions {
-            font-size: 18px;
+            font-size: 1.2em;
             line-height: 1.6;
             margin-bottom: 20px;
         }
 
         a {
-            color: #00bfff;
+            color: #FFA500;
             text-decoration: none;
+            font-weight: bold;
         }
 
         a:hover {
@@ -65,21 +78,27 @@
         }
 
         button {
-            padding: 12px 30px;
-            font-size: 18px;
+            padding: 12px 25px;
+            font-size: 1.2em;
             cursor: pointer;
-            background: #808080;
+            background: linear-gradient(to right, #FFA500, #FF4500);
             border: none;
-            border-radius: 10px;
+            border-radius: 15px;
             color: #FFFFFF;
             font-weight: bold;
-            transition: background 0.3s, transform 0.3s;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            transition: background 0.4s, transform 0.3s;
+            box-shadow: 0 8px 15px rgba(255, 69, 0, 0.4);
+            text-transform: uppercase;
         }
 
         button:hover {
-            background: #a9a9a9;
+            background: linear-gradient(to right, #FF4500, #FFA500);
             transform: scale(1.05);
+        }
+
+        button:active {
+            transform: scale(0.98);
+            box-shadow: 0 4px 10px rgba(255, 69, 0, 0.5);
         }
 
         @media (max-width: 600px) {
@@ -88,12 +107,12 @@
             }
 
             #instructions {
-                font-size: 16px;
+                font-size: 1em;
             }
 
             button {
-                padding: 10px 25px;
-                font-size: 16px;
+                padding: 10px 20px;
+                font-size: 1em;
             }
         }
     </style>
@@ -103,7 +122,7 @@
 <div class="overlay"></div>
 
 <div class="container">
-    <h1>Правильная регистрация аккаунта для нашего приложения ✅</h1>
+    <h1>Правильная регистрация аккаунта для нашего приложения </h1>
     <div id="instructions">
         <p>1. Перейти на сайт - <a href="https://t.me/c/2214579126/332">Жми</a></p>
         <p>2. При регистрации вводим промокод - <strong>GPT24</strong>. Это важно для подключения аккаунта.</p>
@@ -111,7 +130,7 @@
         <p>4. Играем в Lucky Jet, чтобы программа могла начать выдавать сигналы.</p>
         <p>5. Используем ваш ID в программе для запуска.</p>
     </div>
-    <button onclick="window.location.href = 'index.html'" style="background: #808080;">Назад</button>
+    <button onclick="window.location.href = 'index.html'">Назад</button>
 </div>
 
 </body>

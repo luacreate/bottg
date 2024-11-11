@@ -18,135 +18,6 @@
             color: white;
         }
 
-        /* Стили для заставки */
-        .splash-screen {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-color: black;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            color: white;
-            z-index: 1000;
-        }
-
-        .intro {
-            font-size: 5rem;
-            font-weight: bold;
-            display: flex;
-            opacity: 0;
-            animation: fadeIn 2s ease-in-out 1s forwards;
-            position: relative;
-        }
-        .red {
-            color: red;
-            text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000, 0 0 40px #ff0000;
-            animation: flash 0.2s 5 ease-in-out 2s forwards, pulseGlow 3s infinite alternate 4s;
-        }
-        .soft {
-            color: #ffffff;
-            text-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ffffff;
-            animation: slideIn 2s ease-out 3s forwards;
-        }
-        .line {
-            position: absolute;
-            height: 5px;
-            width: 0;
-            background-color: #ff0000;
-            bottom: -10px;
-            left: 0;
-            animation: drawLine 2s ease-in-out 1s forwards;
-        }
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-                transform: scale(0.8);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-        @keyframes flash {
-            0% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-        @keyframes pulseGlow {
-            0% {
-                text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000, 0 0 40px #ff0000;
-                transform: scale(1);
-            }
-            100% {
-                text-shadow: 0 0 20px #ff4d4d, 0 0 40px #ff4d4d, 0 0 60px #ff4d4d, 0 0 80px #ff4d4d;
-                transform: scale(1.05);
-            }
-        }
-        @keyframes slideIn {
-            0% {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            100% {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-        @keyframes drawLine {
-            0% {
-                width: 0;
-            }
-            100% {
-                width: 100%;
-            }
-        }
-
-        /* Стили для главного экрана */
-        .main-screen {
-            display: none;
-            position: relative;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, rgba(255,0,0,0.2), transparent 70%);
-        }
-
-        .circuit-pattern {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
-
-        .glow-circle {
-            position: absolute;
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,69,0,0.8), rgba(0,0,0,0));
-            box-shadow: 0 0 20px 15px rgba(255,69,0,0.5);
-        }
-
-        .glow-circle.center {
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
         .container {
             padding: 20px;
             border: 3px solid rgba(255, 165, 0, 0.8);
@@ -225,42 +96,14 @@
 </head>
 <body>
 
-<div class="splash-screen">
-    <div class="intro">
-        <div class="red">RED</div>
-        <div class="line"></div>
-        &nbsp;<div class="soft">SOFT</div>
-    </div>
-</div>
-
-<div class="main-screen">
-    <div class="background"></div>
-    <div class="circuit-pattern">
-        <svg width="100%" height="100%">
-            <defs>
-                <pattern id="circuit" x="0" y="0" width="0.05" height="0.05" patternUnits="userSpaceOnUse">
-                    <path d="M 0 5 L 10 5 M 5 0 L 5 10" stroke="rgba(255,0,0,0.5)" stroke-width="1"/>
-                </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#circuit)" />
-        </svg>
-    </div>
-    <div class="glow-circle center"></div>
-    <div class="container">
-        <h2 style="color: rgb(255, 255, 255);">Введите ID аккаунта 1win</h2>
-        <input type="text" id="userId" placeholder="Введите ID">
-        <button onclick="checkAccess()">Подключиться</button>
-        <div id="result"></div>
-    </div>
+<div class="container">
+    <h2 style="color: rgb(255, 255, 255);">Введите ID аккаунта 1win</h2>
+    <input type="text" id="userId" placeholder="Введите ID">
+    <button onclick="checkAccess()">Подключиться</button>
+    <div id="result"></div>
 </div>
 
 <script>
-    // Скрыть заставку и показать основной экран через 4 секунды
-    setTimeout(() => {
-        document.querySelector('.splash-screen').style.display = 'none';
-        document.querySelector('.main-screen').style.display = 'flex';
-    }, 4000);
-
     function checkAccess() {
         const userId = document.getElementById('userId').value;
         const resultDiv = document.getElementById('result');
@@ -302,8 +145,8 @@
                 }
             })
             .catch(error => {
-                console.error('Ошибка при получении данных:', error);
-                resultDiv.textContent = "Ошибка при загрузке данных";
+                console.error('Аккаунт не найден:', error);
+                resultDiv.textContent = "Аккаунт не найден";
                 resultDiv.style.color = "#FF0000";
             });
     }

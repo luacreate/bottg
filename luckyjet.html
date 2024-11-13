@@ -18,154 +18,98 @@
             font-family: 'Poppins', sans-serif;
             color: white;
         }
-
         .container {
-            position: relative;
-            z-index: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 15px;
-            border-radius: 15px;
+            padding: 20px;
             background: rgba(40, 40, 60, 0.8);
+            border-radius: 15px;
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-            max-width: 85%;
-            text-align: center;
         }
-
-        .logo {
-            width: 80px;
-            margin-bottom: 15px;
-        }
-
-        h1 {
-            font-size: 2.5em;
-            margin: 0;
-            margin-bottom: 15px;
-            background: linear-gradient(to right, #ff416c, #ff4b2b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 15px rgba(255, 71, 108, 0.6);
-        }
-
         .button {
-            padding: 10px 30px;
+            padding: 12px 30px;
             font-size: 1.2em;
+            margin: 20px;
             cursor: pointer;
             background: linear-gradient(to right, #FFD700, #FFA500);
             border: none;
             border-radius: 10px;
-            color: #FFFFFF;
-            font-weight: bold;
+            color: white;
             transition: background 0.4s, transform 0.3s;
-            box-shadow: 0 8px 15px rgba(255, 215, 0, 0.3);
-            margin-top: 15px;
-            text-transform: uppercase;
         }
-
         .button:hover {
             background: linear-gradient(to right, #FFA500, #FFD700);
-            transform: scale(1.05);
         }
-
-        .button:active {
-            transform: scale(1.02);
-            box-shadow: 0 4px 10px rgba(255, 215, 0, 0.4);
+        .message {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #FF6347;
         }
-
-        .multiplier-container {
-            position: relative;
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            margin: 30px 0;
-            width: 120px;
-            height: 120px;
-        }
-
-        .multiplier-circle {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 4px dashed rgba(0, 212, 255, 0.7);
-            animation: spin 8s linear infinite;
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
         .multiplier {
             font-size: 2.5em;
-            color: #00ffcc;
+            color: #00FF7F;
             text-shadow: 0 0 15px rgba(0, 255, 204, 0.7);
-            opacity: 0;
-            transform: scale(0.5);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-
-        .multiplier.show {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        .support {
-            position: fixed;
-            bottom: 15px;
-            color: white;
-            z-index: 1;
-            background: rgba(50, 50, 50, 0.7);
-            padding: 8px;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
-        }
-
-        .support a {
-            color: #ff8bff;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .support a:hover {
-            text-decoration: underline;
-        }
-
-        @media (max-width: 600px) {
-            .button {
-                padding: 8px 20px;
-                font-size: 1em;
-            }
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
     <div class="container" id="mainContainer">
-        <img src="https://1winbd.com/wp-content/uploads/2022/10/lucky-jet-header.webp" alt="Логотип" class="logo" />
-        <h1 id="heading">Red Soft Signals</h1>
-        
-        <div class="multiplier-container">
-            <div class="multiplier-circle"></div>
-            <div class="multiplier" id="multiplier">x0.00</div>
-        </div>
-        <button class="button" onclick="generateRandomMultiplier()">Получить сигнал</button>
-        <button class="button" style="background: #555;" onclick="window.location.href='menu.html'">Вернуться в меню</button>
-    </div>
-
-    <div class="support">
-        Тех. Поддержка: <a href="https://t.me/redsoft_support" target="_blank">Написать в Telegram</a>
+        <h1>Red Soft Signals</h1>
+        <div class="multiplier" id="multiplier">x0.00</div>
+        <button class="button" onclick="checkDepositAndGenerateSignal()">Получить сигнал</button>
+        <button class="button" onclick="window.location.href='menu.html'">Вернуться в меню</button>
+        <div class="message" id="message"></div>
     </div>
 
     <script>
-        function generateRandomMultiplier() {
+        function checkDepositAndGenerateSignal() {
+            const userId = localStorage.getItem('userId');
+            const messageElement = document.getElementById("message");
             const multiplierElement = document.getElementById("multiplier");
 
-            multiplierElement.classList.remove("show");
+            if (!userId) {
+                messageElement.textContent = "Ошибка: ID пользователя не найден!";
+                return;
+            }
+
+            // Проверяем сумму депозита через сервер
+            fetch('https://postback-server-boba.onrender.com/data')
+                .then(response => response.json())
+                .then(data => {
+                    const userEntry = data.find(entry => entry.user_id === userId);
+
+                    if (userEntry) {
+                        if (userEntry.amount > 19) {
+                            // Если депозит больше 19, генерируем сигнал
+                            generateRandomMultiplier();
+                            messageElement.textContent = "";
+                        } else {
+                            // Если депозит меньше 19, показываем сообщение об активации
+                            messageElement.innerHTML = `
+                                <b>Ваш аккаунт не активирован!</b><br>
+                                Программа не может сделать прогноз для вашего аккаунта, так как он не активирован.<br>
+                                Для активации пополните баланс на 2001 рубль.
+                            `;
+                        }
+                    } else {
+                        messageElement.textContent = "Аккаунт не найден!";
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка при проверке аккаунта:', error);
+                    messageElement.textContent = "Ошибка сервера. Попробуйте позже.";
+                });
+        }
+
+        function generateRandomMultiplier() {
+            const multiplierElement = document.getElementById("multiplier");
+            multiplierElement.textContent = "x0.00";
+
             setTimeout(() => {
                 const randomMultiplier = (Math.random() * 9 + 1).toFixed(2);
                 multiplierElement.textContent = `x${randomMultiplier}`;
-                multiplierElement.classList.add("show");
             }, 2000);
         }
     </script>

@@ -17,7 +17,6 @@
             background-size: cover;
             color: white;
         }
-
         .container {
             padding: 20px;
             border: 3px solid rgba(255, 165, 0, 0.8);
@@ -31,25 +30,13 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
-            position: relative;
-            z-index: 1;
         }
-
         h2 {
-            margin: 0;
             font-size: 2.5em;
             background: linear-gradient(to right, #ff416c, #ff4b2b);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(255, 71, 108, 0.7);
-            animation: textGlow 1.5s infinite alternate;
         }
-
-        @keyframes textGlow {
-            0% { text-shadow: 0 0 20px rgba(255, 71, 108, 0.7); }
-            100% { text-shadow: 0 0 40px rgba(255, 71, 108, 1); }
-        }
-
         input {
             padding: 10px;
             width: 100%;
@@ -57,12 +44,10 @@
             border-radius: 8px;
             border: 2px solid #1b1b2f;
             margin-top: 15px;
-            margin-bottom: 10px;
             background: #330000;
             color: #ffffff;
             text-align: center;
         }
-
         button {
             padding: 12px 25px;
             font-size: 1.2em;
@@ -72,21 +57,10 @@
             border-radius: 15px;
             color: #FFFFFF;
             font-weight: bold;
-            transition: background 0.4s, transform 0.3s;
-            box-shadow: 0 8px 15px rgba(255, 69, 0, 0.4);
-            text-transform: uppercase;
         }
-
         button:hover {
             background: linear-gradient(to right, #FF4500, #FFA500);
-            transform: scale(1.05);
         }
-
-        button:active {
-            transform: scale(0.98);
-            box-shadow: 0 4px 10px rgba(255, 69, 0, 0.5);
-        }
-
         #result {
             margin-top: 15px;
             font-size: 1.5em;
@@ -95,62 +69,56 @@
     </style>
 </head>
 <body>
+    <div class="container">
+        <h2>Введите ID аккаунта 1win</h2>
+        <input type="text" id="userId" placeholder="Введите ID">
+        <button onclick="checkAccess()">Подключиться</button>
+        <div id="result"></div>
+    </div>
 
-<div class="container">
-    <h2 style="color: rgb(255, 255, 255);">Введите ID аккаунта 1win</h2>
-    <input type="text" id="userId" placeholder="Введите ID">
-    <button onclick="checkAccess()">Подключиться</button>
-    <div id="result"></div>
-</div>
+    <script>
+        function checkAccess() {
+            const userId = document.getElementById('userId').value.trim();
+            const resultDiv = document.getElementById('result');
 
-<script>
-    function checkAccess() {
-        const userId = document.getElementById('userId').value;
-        const resultDiv = document.getElementById('result');
+            if (!userId) {
+                resultDiv.textContent = "Пожалуйста, введите ID вашего аккаунта на 1win";
+                resultDiv.style.color = "#FF0000";
+                return;
+            }
 
-        if (!userId) {
-            resultDiv.textContent = "Пожалуйста, введите ID вашего аккаунта на 1win";
-            return;
-        }
+            // Запрос к серверу для проверки ID в базе данных
+            fetch('https://postback-server-boba.onrender.com/data')
+                .then(response => response.json())
+                .then(data => {
+                    const userEntry = data.find(entry => entry.user_id === userId);
 
-        // Отправляем GET-запрос к серверу для получения данных из data.json
-        fetch('https://postback-server-boba.onrender.com/data')
-            .then(response => response.json())
-            .then(data => {
-                const userEntry = data.find(entry => entry.user_id === userId);
-
-                if (userEntry) {
-                    if (userEntry.amount > 19.00) {
+                    if (userEntry) {
+                        // Сохраняем ID во временную память (localStorage)
+                        localStorage.setItem('userId', userId);
                         resultDiv.textContent = "Аккаунт найден!";
                         resultDiv.style.color = "#00FF00";
+
                         // Переход на страницу menu.html
                         setTimeout(() => {
                             window.location.href = "menu.html";
-                        }, 1000); // Задержка на 1 секунду перед переходом
+                        }, 1000);
                     } else {
                         resultDiv.textContent = "Аккаунт не активирован!";
                         resultDiv.style.color = "#FF0000";
+
                         // Переход на страницу instruction.html
                         setTimeout(() => {
                             window.location.href = "instruction.html";
-                        }, 1000); // Задержка на 1 секунду перед переходом
+                        }, 1000);
                     }
-                } else {
-                    resultDiv.textContent = "Аккаунт не активирован!";
+                })
+                .catch(error => {
+                    console.error('Ошибка при получении данных:', error);
+                    resultDiv.textContent = "Ошибка сервера. Попробуйте позже.";
                     resultDiv.style.color = "#FF0000";
-                    // Переход на страницу instruction.html
-                    setTimeout(() => {
-                        window.location.href = "instruction.html";
-                    }, 1000); // Задержка на 1 секунду перед переходом
-                }
-            })
-            .catch(error => {
-                console.error('Аккаунт не найден:', error);
-                resultDiv.textContent = "Аккаунт не найден";
-                resultDiv.style.color = "#FF0000";
-            });
-    }
-</script>
-
+                });
+        }
+    </script>
 </body>
 </html>

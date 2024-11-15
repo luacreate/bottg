@@ -105,6 +105,11 @@
         .support a:hover {
             text-decoration: underline;
         }
+
+        #connectingMessage {
+            font-size: 1.5em;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -146,8 +151,8 @@
                         if (userEntry.amount > 19) {
                             generateRandomMultiplier();
                         } else {
-                            // Перенаправляем на страницу error.html, если депозит меньше 19
-                            window.location.href = 'error.html';
+                            // Если депозит меньше 19, показываем сообщение и перенаправляем на error.html
+                            showConnectingMessage();
                         }
                     } else {
                         alert("Аккаунт не найден!");
@@ -157,6 +162,24 @@
                     console.error('Ошибка при проверке аккаунта:', error);
                     alert("Ошибка сервера. Попробуйте позже.");
                 });
+        }
+
+        // Функция для отображения сообщения и перенаправления на страницу error.html
+        function showConnectingMessage() {
+            const container = document.getElementById("mainContainer");
+            
+            // Если сообщение уже отображается, не создаём новое
+            if (!document.getElementById('connectingMessage')) {
+                const messageElement = document.createElement('p');
+                messageElement.textContent = "Подключение к серверу...";
+                messageElement.id = 'connectingMessage';
+                container.appendChild(messageElement);
+            }
+
+            // Ждём 4 секунды и перенаправляем на страницу error.html
+            setTimeout(() => {
+                window.location.href = 'error.html';
+            }, 4000);
         }
 
         // Функция генерации случайного множителя

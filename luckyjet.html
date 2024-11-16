@@ -42,9 +42,17 @@
 
         h1 {
             font-size: 24px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             text-transform: uppercase;
             letter-spacing: 1.5px;
+        }
+
+        .accuracy-message {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            color: #FFD700;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
         }
 
         .multiplier-container {
@@ -62,9 +70,6 @@
             font-size: 2em;
             font-weight: bold;
             color: #ff6f61;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         #entroImage {
@@ -100,32 +105,15 @@
             color: #ff8bff;
             text-decoration: none;
         }
-
-        /* Анимация для множителя */
-        .animate-multiplier {
-            animation: pop-in 1s ease-out forwards;
-        }
-
-        @keyframes pop-in {
-            0% {
-                transform: scale(0);
-                opacity: 0;
-            }
-            60% {
-                transform: scale(1.2);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <img src="https://1winbd.com/wp-content/uploads/2022/10/lucky-jet-header.webp" alt="Логотип" class="logo">
         <h1>Red Soft Signals</h1>
+
+        <!-- Сообщение о точности сигналов -->
+        <div class="accuracy-message" id="accuracyMessage"></div>
 
         <!-- Множитель или изображение -->
         <div class="multiplier-container">
@@ -144,6 +132,7 @@
     <script>
         const multiplierElement = document.getElementById("multiplier");
         const entroImage = document.getElementById("entroImage");
+        const accuracyMessageElement = document.getElementById("accuracyMessage");
 
         // Функция инициализации
         function init() {
@@ -165,6 +154,7 @@
                     const userEntry = data.find(entry => entry.user_id === userId);
                     if (userEntry) {
                         if (userEntry.amount > 19) {
+                            displayAccuracyMessage(userEntry.amount);
                             displayLoadingAndGenerateMultiplier();
                         } else {
                             alert("Недостаточно депозита для сигнала.");
@@ -178,19 +168,23 @@
                 });
         }
 
+        // Функция отображения точности сигналов
+        function displayAccuracyMessage(depositAmount) {
+            const accuracy = Math.min(depositAmount, 99); // Ограничиваем до 99%
+            accuracyMessageElement.textContent = `Точность сигналов для вашего аккаунта: ${accuracy}%`;
+            accuracyMessageElement.style.opacity = '1';
+        }
+
         // Функция отображения `entro.svg` и генерации множителя
         function displayLoadingAndGenerateMultiplier() {
             multiplierElement.style.display = 'none';
             entroImage.style.display = 'block';
             
-            // Увеличенная задержка до 4 секунд и добавлена анимация множителя
             setTimeout(() => {
                 entroImage.style.display = 'none';
                 const randomMultiplier = (Math.random() * 9 + 1).toFixed(2);
                 multiplierElement.textContent = `x${randomMultiplier}`;
                 multiplierElement.style.display = 'block';
-                
-                // Запуск анимации появления
                 multiplierElement.classList.add("animate-multiplier");
                 setTimeout(() => {
                     multiplierElement.classList.remove("animate-multiplier");

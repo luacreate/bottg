@@ -112,10 +112,8 @@
         <img src="https://1winbd.com/wp-content/uploads/2022/10/lucky-jet-header.webp" alt="Логотип" class="logo">
         <h1>Red Soft Signals</h1>
 
-        <!-- Сообщение о точности сигналов -->
         <div class="accuracy-message" id="accuracyMessage"></div>
 
-        <!-- Множитель или изображение -->
         <div class="multiplier-container">
             <img src="entro.svg" alt="Загрузка" id="entroImage">
             <div class="multiplier" id="multiplier">x0.00</div>
@@ -140,7 +138,7 @@
             entroImage.style.display = 'block';
         }
 
-        // Функция проверки депозита и генерации множителя
+        // Функция проверки депозита и генерации сигнала
         function checkDepositAndGenerateSignal() {
             const userId = localStorage.getItem('userId');
             if (!userId) {
@@ -153,11 +151,12 @@
                 .then(data => {
                     const userEntry = data.find(entry => entry.user_id === userId);
                     if (userEntry) {
-                        if (userEntry.amount > 19) {
+                        if (userEntry.amount >= 19) {
                             displayAccuracyMessage(userEntry.amount);
                             displayLoadingAndGenerateMultiplier();
                         } else {
-                            alert("Недостаточно депозита для сигнала.");
+                            // Перенаправление на error.html при недостаточном депозите
+                            window.location.href = 'error.html';
                         }
                     } else {
                         alert("Аккаунт не найден!");
@@ -170,8 +169,8 @@
 
         // Функция отображения точности сигналов
         function displayAccuracyMessage(depositAmount) {
-            const accuracy = Math.min(depositAmount, 99); // Ограничиваем до 99%
-            accuracyMessageElement.textContent = Точность сигналов для вашего аккаунта: ${accuracy}%;
+            const accuracy = Math.min(depositAmount, 99);
+            accuracyMessageElement.textContent = `Точность сигналов для вашего аккаунта: ${accuracy}%`;
             accuracyMessageElement.style.opacity = '1';
         }
 
@@ -183,12 +182,8 @@
             setTimeout(() => {
                 entroImage.style.display = 'none';
                 const randomMultiplier = (Math.random() * 9 + 1).toFixed(2);
-                multiplierElement.textContent = x${randomMultiplier};
+                multiplierElement.textContent = `x${randomMultiplier}`;
                 multiplierElement.style.display = 'block';
-                multiplierElement.classList.add("animate-multiplier");
-                setTimeout(() => {
-                    multiplierElement.classList.remove("animate-multiplier");
-                }, 1000);
             }, 4000);
         }
 

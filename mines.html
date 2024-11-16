@@ -53,26 +53,9 @@
             text-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
         }
 
-        .red-text {
-            color: red;
-        }
-
-        .username {
-            font-size: 16px;
-            margin: 0;
-            margin-top: -5px;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-        }
-
         .game-container {
             padding: 10px;
-            border: 3px solid rgba(173, 216, 230, 0.8);
             border-radius: 20px;
-            background: rgba(0, 15, 45, 0.9);
-            box-shadow: 
-                inset 0 0 15px rgba(0, 0, 0, 0.8),
-                0 0 20px rgba(0, 216, 230, 0.5),
-                0 0 30px rgba(0, 216, 230, 0.3);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -82,25 +65,15 @@
         .grid {
             display: grid;
             grid-template-columns: repeat(5, 50px);
-            grid-template-rows: repeat(5, 50px);
             gap: 5px;
-            position: relative;
         }
 
         .square {
             width: 50px;
             height: 50px;
             background: url('button.png') no-repeat center center;
-            background-size: 250px 250px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            color: white;
+            background-size: cover;
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s;
-            opacity: 1;
         }
 
         .star {
@@ -109,56 +82,8 @@
             position: absolute;
             background: url('star.png') no-repeat center center;
             background-size: cover;
-            transition: opacity 0.5s, transform 0.5s;
             opacity: 0;
-        }
-
-        .mode-selection {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 10px;
-            padding: 10px 20px;
-            border-radius: 15px;
-            background: rgba(27, 27, 47, 0.9);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            margin-bottom: 15px;
-            color: #FFFFFF;
-            font-size: 20px;
-            font-weight: bold;
-        }
-
-        .mode-selection label {
-            margin-bottom: 10px;
-            color: #FFFFFF;
-            font-size: 16px;
-        }
-
-        .mode-button {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 10px;
-            background-color: #1b1b2f;
-            color: #FFFFFF;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: background 0.3s, transform 0.3s;
-        }
-
-        .mode-button:hover {
-            background-color: #343a40;
-        }
-
-        #modeValue {
-            color: #FFFFFF;
-            font-weight: bold;
-            font-size: 20px;
-            margin: 0 10px;
+            transition: opacity 0.5s;
         }
 
         button {
@@ -170,8 +95,6 @@
             border-radius: 10px;
             color: #FFFFFF;
             font-weight: bold;
-            transition: background 0.3s, transform 0.3s;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
         }
 
         button:hover {
@@ -179,31 +102,10 @@
             transform: scale(1.05);
         }
 
-        .button-container {
+        #connectingMessage {
+            font-size: 1.5em;
             margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            width: 100%;
-            gap: 10px;
-        }
-
-        @media (max-width: 600px) {
-            .grid {
-                grid-template-columns: repeat(5, 40px);
-                grid-template-rows: repeat(5, 40px);
-            }
-
-            .square {
-                width: 40px;
-                height: 40px;
-                font-size: 18px;
-                background-size: contain;
-            }
-
-            .star {
-                width: 32px;
-                height: 32px;
-            }
+            color: yellow;
         }
     </style>
 </head>
@@ -213,35 +115,24 @@
 
 <div class="container">
     <div class="header">
-        <h1><span class="red-text">RED</span> SOFT</h1>
-        <h2 class="username">signals</h2>
+        <h1><span class="red-text">RED</span> SOFT Signals</h1>
     </div>
 
     <div class="game-container">
         <div class="grid" id="grid"></div>
     </div>
 
-    <div class="mode-selection">
-        <label for="modeValue">Кол-во ловушек</label>
-        <div style="display: flex; align-items: center;">
-            <button class="mode-button" id="decrement">-</button>
-            <div id="modeValue">1</div>
-            <button class="mode-button" id="increment">+</button>
-        </div>
-    </div>
-
     <div class="button-container">
         <button id="signalButton">Получить сигнал</button>
-        <button class="button" style="background: #808080;" onclick="window.location.href='menu.html'">Вернуться в меню</button>
+        <button onclick="window.location.href='menu.html'">Вернуться в меню</button>
     </div>
+    <p id="connectingMessage" style="display: none;">Подключение к серверу...</p>
 </div>
 
 <script>
     const grid = document.getElementById('grid');
     const squares = [];
     let currentStars = [];
-    let mode = 1;
-    const modeValueDisplay = document.getElementById('modeValue');
     let isShowingSignal = false;
 
     // Создание ячеек сетки
@@ -252,70 +143,76 @@
         squares.push(square);
     }
 
+    document.getElementById('signalButton').addEventListener('click', checkDepositAndShowStars);
+
+    // Функция для проверки депозита и показа сигналов
+    async function checkDepositAndShowStars() {
+        const userId = localStorage.getItem('userId');
+
+        if (!userId) {
+            alert("Ошибка: ID пользователя не найден!");
+            return;
+        }
+
+        // Проверка депозита на сервере
+        try {
+            const response = await fetch('https://postback-server-boba.onrender.com/data');
+            const data = await response.json();
+            const userEntry = data.find(entry => entry.user_id === userId);
+
+            if (userEntry) {
+                if (userEntry.amount >= 19) {
+                    showStars();
+                } else {
+                    showConnectingMessage();
+                }
+            } else {
+                alert("Аккаунт не найден!");
+            }
+        } catch (error) {
+            console.error('Ошибка при проверке аккаунта:', error);
+            alert("Ошибка сервера. Попробуйте позже.");
+        }
+    }
+
+    // Функция для показа сообщения и перенаправления на страницу ошибки
+    function showConnectingMessage() {
+        const messageElement = document.getElementById('connectingMessage');
+        messageElement.style.display = 'block';
+
+        setTimeout(() => {
+            window.location.href = 'error.html';
+        }, 4000);
+    }
+
+    // Функция для показа звёзд
     async function showStars() {
         if (isShowingSignal) return;
         isShowingSignal = true;
 
-        // Удаляем существующие звезды
         currentStars.forEach(star => star.remove());
         currentStars = [];
+        squares.forEach(square => square.style.opacity = '1');
 
-        // Возвращаем ячейки в исходное состояние
-        squares.forEach(square => {
-            square.style.opacity = '1';
-            square.style.visibility = 'visible';
-        });
+        const randomIndices = Array.from({ length: 5 }, () => Math.floor(Math.random() * 25));
 
-        // Определение количества звезд для текущего режима
-        let starsToShow;
-        if (mode === 1) starsToShow = 10;
-        else if (mode === 3) starsToShow = 5;
-        else if (mode === 5) starsToShow = 4;
-        else if (mode === 7) starsToShow = 3;
-
-        // Генерация случайных индексов для звезд
-        const randomIndices = [];
-        while (randomIndices.length < starsToShow) {
-            const randomIndex = Math.floor(Math.random() * 25);
-            if (!randomIndices.includes(randomIndex)) randomIndices.push(randomIndex);
-        }
-
-        // Показ звезд
-        for (let i = 0; i < randomIndices.length; i++) {
-            const index = randomIndices[i];
+        for (let index of randomIndices) {
             const square = squares[index];
-
-            square.style.transition = 'opacity 0.5s';
             square.style.opacity = '0';
 
             await new Promise(resolve => setTimeout(resolve, 500));
 
-            // Создание звезды
             const star = document.createElement('div');
             star.className = 'star';
-            star.style.left = `${square.offsetLeft + square.clientWidth / 2 - 15}px`;
-            star.style.top = `${square.offsetTop + square.clientHeight / 2 - 20}px`;
+            star.style.left = `${square.offsetLeft + square.clientWidth / 2 - 25}px`;
+            star.style.top = `${square.offsetTop + square.clientHeight / 2 - 25}px`;
             star.style.opacity = '1';
-
-            // Добавляем звезду в контейнер grid
             grid.appendChild(star);
             currentStars.push(star);
         }
 
         isShowingSignal = false;
     }
-
-    document.getElementById('signalButton').addEventListener('click', showStars);
-
-    document.getElementById('increment').addEventListener('click', () => {
-        if (mode < 7) mode += 2;
-        modeValueDisplay.textContent = mode;
-    });
-
-    document.getElementById('decrement').addEventListener('click', () => {
-        if (mode > 1) mode -= 2;
-        modeValueDisplay.textContent = mode;
-    });
 </script>
 
 </body>

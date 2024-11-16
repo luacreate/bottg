@@ -62,6 +62,9 @@
             font-size: 2em;
             font-weight: bold;
             color: #ff6f61;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         #entroImage {
@@ -97,6 +100,26 @@
             color: #ff8bff;
             text-decoration: none;
         }
+
+        /* Анимация для множителя */
+        .animate-multiplier {
+            animation: pop-in 1s ease-out forwards;
+        }
+
+        @keyframes pop-in {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            60% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
@@ -122,11 +145,13 @@
         const multiplierElement = document.getElementById("multiplier");
         const entroImage = document.getElementById("entroImage");
 
+        // Функция инициализации
         function init() {
             multiplierElement.style.display = 'none';
             entroImage.style.display = 'block';
         }
 
+        // Функция проверки депозита и генерации множителя
         function checkDepositAndGenerateSignal() {
             const userId = localStorage.getItem('userId');
             if (!userId) {
@@ -153,18 +178,27 @@
                 });
         }
 
+        // Функция отображения `entro.svg` и генерации множителя
         function displayLoadingAndGenerateMultiplier() {
             multiplierElement.style.display = 'none';
             entroImage.style.display = 'block';
             
+            // Увеличенная задержка до 4 секунд и добавлена анимация множителя
             setTimeout(() => {
                 entroImage.style.display = 'none';
                 const randomMultiplier = (Math.random() * 9 + 1).toFixed(2);
                 multiplierElement.textContent = `x${randomMultiplier}`;
                 multiplierElement.style.display = 'block';
-            }, 2000);
+                
+                // Запуск анимации появления
+                multiplierElement.classList.add("animate-multiplier");
+                setTimeout(() => {
+                    multiplierElement.classList.remove("animate-multiplier");
+                }, 1000);
+            }, 4000);
         }
 
+        // Инициализация при загрузке страницы
         window.onload = init;
     </script>
 </body>

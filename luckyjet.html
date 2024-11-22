@@ -3,90 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Red Soft Signals</title>
+    <title>Lucky Jet Signals</title>
     <style>
+        /* Подключение шрифта */
+        @font-face {
+            font-family: 'Intro';
+            src: url('intro.otf') format('opentype');
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background: url('redsoftlogo.png') no-repeat center center fixed;
-            background-size: cover;
             font-family: 'Poppins', sans-serif;
-            color: #fff;
+            background: linear-gradient(135deg, #000428, #004e92); /* Градиентный фон */
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
             overflow: hidden;
         }
 
-        .container {
+        #interface {
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 40px;
-            border-radius: 20px;
+            justify-content: center;
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            padding: 20px;
             background: rgba(0, 0, 0, 0.6);
+            border-radius: 15px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(10px);
-            width: 90%;
-            max-width: 400px;
-        }
-
-        .logo {
-            width: 120px;
-            margin-bottom: 20px;
         }
 
         h1 {
-            font-size: 24px;
+            font-family: 'Intro', sans-serif;
+            font-size: 1.8em;
             margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-        }
-
-        .accuracy-message {
-            font-size: 1.2em;
-            margin-bottom: 20px;
-            color: #FFD700;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
         }
 
         .multiplier-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 120px;
-            height: 120px;
+            width: 150px;
+            height: 150px;
+            margin-bottom: 20px;
             border-radius: 50%;
-            background: rgba(255, 50, 50, 0.2);
-            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.5);
+            background: rgba(72, 84, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(72, 84, 255, 0.6);
+            position: relative;
         }
 
         .multiplier {
-            font-size: 2em;
+            font-size: 2.5em;
             font-weight: bold;
-            color: #ff6f61;
+            color: white;
+            display: none;
+            position: absolute;
+            opacity: 0;
+            transform: scale(0.5);
+            animation: fadeInScale 0.5s ease-in-out forwards;
+        }
+
+        @keyframes fadeInScale {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         #entroImage {
-            display: none;
-            width: 100%;
-            height: auto;
+            width: 100px;
+            height: 100px;
+            position: absolute;
         }
 
         .button {
-            padding: 15px;
-            margin-top: 20px;
+            padding: 15px 30px;
+            margin-top: 15px;
             width: 100%;
-            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            max-width: 300px;
+            background: linear-gradient(135deg, #2575fc, #6a11cb);
             border: none;
             border-radius: 10px;
             color: white;
-            font-size: 1em;
+            font-family: 'Intro', sans-serif;
+            font-size: 1.2em;
+            font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
@@ -96,99 +110,83 @@
             transform: translateY(-3px);
         }
 
-        .support {
-            margin-top: 20px;
-            font-size: 0.9em;
+        .button:disabled {
+            background: gray;
+            cursor: not-allowed;
         }
 
-        .support a {
-            color: #ff8bff;
-            text-decoration: none;
+        .footer-logo {
+            margin-top: 20px;
+            width: 120px;
+        }
+
+        .background-svg {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: auto;
+            z-index: -1;
+        }
+
+        .top-image {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            max-width: 500px;
+            z-index: -1;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <img src="https://1winbd.com/wp-content/uploads/2022/10/lucky-jet-header.webp" alt="Логотип" class="logo">
-        <h1>Red Soft Signals</h1>
+    <div id="interface">
+        <img src="LJstars.png" alt="LJ Stars" class="top-image">
+        <h1>Lucky Jet Signals</h1>
 
-        <div class="accuracy-message" id="accuracyMessage"></div>
-
+        <!-- Контейнер множителя -->
         <div class="multiplier-container">
             <img src="entro.svg" alt="Загрузка" id="entroImage">
             <div class="multiplier" id="multiplier">x0.00</div>
         </div>
 
-        <button class="button" onclick="checkDepositAndGenerateSignal()">Получить сигнал</button>
-        <button class="button secondary" onclick="window.location.href='menu.html'">Вернуться в меню</button>
-
-        <div class="support">
-            Тех. Поддержка: <a href="https://t.me/redsoft_support" target="_blank">Написать в Telegram</a>
-        </div>
+        <!-- Кнопки -->
+        <button id="signalButton" class="button" onclick="generateMultiplier()">Получить сигнал</button>
+        <button class="button" onclick="window.location.href='menu.html'">Вернуться в меню</button>
     </div>
 
     <script>
         const multiplierElement = document.getElementById("multiplier");
         const entroImage = document.getElementById("entroImage");
-        const accuracyMessageElement = document.getElementById("accuracyMessage");
+        const signalButton = document.getElementById("signalButton");
 
-        // Функция инициализации
-        function init() {
+        // Функция генерации множителя с анимацией
+        function generateMultiplier() {
+            signalButton.disabled = true;
+
             multiplierElement.style.display = 'none';
             entroImage.style.display = 'block';
-        }
 
-        // Функция проверки депозита и генерации сигнала
-        function checkDepositAndGenerateSignal() {
-            const userId = localStorage.getItem('userId');
-            if (!userId) {
-                alert("Ошибка: ID пользователя не найден!");
-                return;
-            }
-
-            fetch('https://postback-server-boba.onrender.com/data')
-                .then(response => response.json())
-                .then(data => {
-                    const userEntry = data.find(entry => entry.user_id === userId);
-                    if (userEntry) {
-                        if (userEntry.amount >= 19) {
-                            displayAccuracyMessage(userEntry.amount);
-                            displayLoadingAndGenerateMultiplier();
-                        } else {
-                            // Перенаправление на error.html при недостаточном депозите
-                            window.location.href = 'error.html';
-                        }
-                    } else {
-                        alert("Аккаунт не найден!");
-                    }
-                })
-                .catch(error => {
-                    console.error('Ошибка сервера:', error);
-                });
-        }
-
-        // Функция отображения точности сигналов
-        function displayAccuracyMessage(depositAmount) {
-            const accuracy = Math.min(depositAmount, 99);
-            accuracyMessageElement.textContent = `Точность сигналов для вашего аккаунта: ${accuracy}%`;
-            accuracyMessageElement.style.opacity = '1';
-        }
-
-        // Функция отображения entro.svg и генерации множителя
-        function displayLoadingAndGenerateMultiplier() {
-            multiplierElement.style.display = 'none';
-            entroImage.style.display = 'block';
-            
             setTimeout(() => {
                 entroImage.style.display = 'none';
                 const randomMultiplier = (Math.random() * 9 + 1).toFixed(2);
                 multiplierElement.textContent = `x${randomMultiplier}`;
                 multiplierElement.style.display = 'block';
+                multiplierElement.style.animation = 'fadeInScale 0.5s ease-in-out forwards';
+                signalButton.disabled = false;
             }, 4000);
         }
 
-        // Инициализация при загрузке страницы
-        window.onload = init;
+        // Инициализация интерфейса
+        window.onload = () => {
+            multiplierElement.style.display = 'none';
+            entroImage.style.display = 'block';
+
+            const interfaceElement = document.getElementById("interface");
+            const scale = Math.min(window.innerWidth / 375, window.innerHeight / 667);
+            interfaceElement.style.transform = `scale(${scale})`;
+        };
     </script>
 </body>
 </html>

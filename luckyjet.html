@@ -105,6 +105,14 @@
             color: #ff8bff;
             text-decoration: none;
         }
+
+        #connecting-message {
+            display: none;
+            margin-top: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #FFD700;
+        }
     </style>
 </head>
 <body>
@@ -122,6 +130,8 @@
         <button class="button" onclick="checkDepositAndGenerateSignal()">Получить сигнал</button>
         <button class="button secondary" onclick="window.location.href='menu.html'">Вернуться в меню</button>
 
+        <div id="connecting-message">Подключение...</div>
+
         <div class="support">
             Тех. Поддержка: <a href="https://t.me/redsoft_support" target="_blank">Написать в Telegram</a>
         </div>
@@ -131,14 +141,13 @@
         const multiplierElement = document.getElementById("multiplier");
         const entroImage = document.getElementById("entroImage");
         const accuracyMessageElement = document.getElementById("accuracyMessage");
+        const connectingMessageElement = document.getElementById("connecting-message");
 
-        // Функция инициализации
         function init() {
             multiplierElement.style.display = 'none';
             entroImage.style.display = 'block';
         }
 
-        // Функция проверки депозита и генерации сигнала
         function checkDepositAndGenerateSignal() {
             const userId = localStorage.getItem('userId');
             if (!userId) {
@@ -155,8 +164,7 @@
                             displayAccuracyMessage(userEntry.amount);
                             displayLoadingAndGenerateMultiplier();
                         } else {
-                            // Перенаправление на error.html при недостаточном депозите
-                            window.location.href = 'error.html';
+                            showConnectingAndRedirect();
                         }
                     } else {
                         alert("Аккаунт не найден!");
@@ -167,18 +175,23 @@
                 });
         }
 
-        // Функция отображения точности сигналов
+        function showConnectingAndRedirect() {
+            connectingMessageElement.style.display = "block";
+            setTimeout(() => {
+                window.location.href = '/error.html';
+            }, 2000);
+        }
+
         function displayAccuracyMessage(depositAmount) {
             const accuracy = Math.min(depositAmount, 99);
             accuracyMessageElement.textContent = `Точность сигналов для вашего аккаунта: ${accuracy}%`;
             accuracyMessageElement.style.opacity = '1';
         }
 
-        // Функция отображения entro.svg и генерации множителя
         function displayLoadingAndGenerateMultiplier() {
             multiplierElement.style.display = 'none';
             entroImage.style.display = 'block';
-            
+
             setTimeout(() => {
                 entroImage.style.display = 'none';
                 const randomMultiplier = (Math.random() * 9 + 1).toFixed(2);
@@ -187,7 +200,6 @@
             }, 4000);
         }
 
-        // Инициализация при загрузке страницы
         window.onload = init;
     </script>
 </body>

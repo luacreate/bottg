@@ -205,7 +205,7 @@
         currentStars = [];
         squares.forEach(square => square.style.opacity = '1');
 
-        const randomIndices = Array.from({ length: 18 }, () => Math.floor(Math.random() * 25));
+        const randomIndices = Array.from({ length: 5 }, () => Math.floor(Math.random() * 25));
 
         for (let index of randomIndices) {
             const square = squares[index];
